@@ -1,5 +1,11 @@
 # @cloudflare/sandbox
 
+## 0.6.4
+
+### Patch Changes
+
+- [#281](https://github.com/cloudflare/sandbox-sdk/pull/281) [`472d5ae`](https://github.com/cloudflare/sandbox-sdk/commit/472d5ae4bb7fbf075376a90558a2de282c649edb) Thanks [@ghostwriternr](https://github.com/ghostwriternr)! - Fix session initialization to eliminate noisy error logs during hot reloads
+
 ## 0.6.3
 
 ### Patch Changes
@@ -54,10 +60,10 @@
 
   ```dockerfile
   # Before
-  FROM cloudflare/sandbox:0.6.3
+  FROM cloudflare/sandbox:0.6.4
 
   # After
-  FROM cloudflare/sandbox:0.6.3-python
+  FROM cloudflare/sandbox:0.6.4-python
   ```
 
   Without this change, Python execution will fail with `PYTHON_NOT_AVAILABLE` error.
