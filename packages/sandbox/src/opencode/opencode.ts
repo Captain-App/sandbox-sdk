@@ -26,7 +26,9 @@ async function ensureSdkLoaded(): Promise<void> {
   if (createOpencodeClient) return;
 
   try {
-    const sdk = await import('@opencode-ai/sdk');
+    // Import from /client to avoid server code that uses node:child_process
+    // This makes the opencode integration compatible with Cloudflare Workers
+    const sdk = await import('@opencode-ai/sdk/client');
     createOpencodeClient = sdk.createOpencodeClient;
   } catch {
     throw new Error(
