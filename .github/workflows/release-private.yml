@@ -176,33 +176,34 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Create npm tarball for release
+        run: |
+          cd packages/sandbox
+          npm pack
+          mv captain-app-sandbox-*.tgz sandbox.tgz
+
       - name: Create GitHub Release
         if: github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ needs.unit-tests.outputs.version }}
           name: Release v${{ needs.unit-tests.outputs.version }}
+          files: packages/sandbox/sandbox.tgz
           body: |
-            ## NPM Package (GitHub Packages)
+            ## NPM Package
 
-            Install via npm:
-            ```bash
-            npm install @captain-app/sandbox
-            ```
-
-            Or add to package.json:
+            Install from release tarball (recommended):
             ```json
             {
               "dependencies": {
-                "@captain-app/sandbox": "^${{ needs.unit-tests.outputs.version }}"
+                "@captain-app/sandbox": "https://github.com/Captain-App/sandbox-sdk/releases/download/v${{ needs.unit-tests.outputs.version }}/sandbox.tgz"
               }
             }
             ```
 
-            **Note**: Configure `.npmrc` to use GitHub Packages:
-            ```
-            @captain-app:registry=https://npm.pkg.github.com
-            //npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
+            Or install from GitHub Packages (requires auth):
+            ```bash
+            npm install @captain-app/sandbox
             ```
 
             ## Docker Images (GitHub Container Registry)
