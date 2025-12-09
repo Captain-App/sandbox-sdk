@@ -130,8 +130,8 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/sandbox:${{ needs.unit-tests.outputs.version }}
-            ghcr.io/${{ github.repository_owner }}/sandbox:latest
+            ghcr.io/captain-app/sandbox:${{ needs.unit-tests.outputs.version }}
+            ghcr.io/captain-app/sandbox:latest
           cache-from: type=gha,scope=release-default
           cache-to: type=gha,mode=max,scope=release-default
           build-args: |
@@ -146,8 +146,8 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/sandbox:${{ needs.unit-tests.outputs.version }}-python
-            ghcr.io/${{ github.repository_owner }}/sandbox:latest-python
+            ghcr.io/captain-app/sandbox:${{ needs.unit-tests.outputs.version }}-python
+            ghcr.io/captain-app/sandbox:latest-python
           cache-from: type=gha,scope=release-python
           cache-to: type=gha,mode=max,scope=release-python
           build-args: |
@@ -162,8 +162,8 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/sandbox:${{ needs.unit-tests.outputs.version }}-opencode
-            ghcr.io/${{ github.repository_owner }}/sandbox:latest-opencode
+            ghcr.io/captain-app/sandbox:${{ needs.unit-tests.outputs.version }}-opencode
+            ghcr.io/captain-app/sandbox:latest-opencode
           cache-from: type=gha,scope=release-opencode
           cache-to: type=gha,mode=max,scope=release-opencode
           build-args: |
@@ -184,12 +184,12 @@ jobs:
           name: Release v${{ needs.unit-tests.outputs.version }}
           body: |
             ## NPM Package (GitHub Packages)
-            
+
             Install via npm:
             ```bash
             npm install @captain-app/sandbox
             ```
-            
+
             Or add to package.json:
             ```json
             {
@@ -198,20 +198,19 @@ jobs:
               }
             }
             ```
-            
+
             **Note**: Configure `.npmrc` to use GitHub Packages:
             ```
             @captain-app:registry=https://npm.pkg.github.com
             //npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
             ```
-            
+
             ## Docker Images (GitHub Container Registry)
-            
-            - `ghcr.io/${{ github.repository_owner }}/sandbox:${{ needs.unit-tests.outputs.version }}`
-            - `ghcr.io/${{ github.repository_owner }}/sandbox:${{ needs.unit-tests.outputs.version }}-python`
-            - `ghcr.io/${{ github.repository_owner }}/sandbox:${{ needs.unit-tests.outputs.version }}-opencode`
+
+            - `ghcr.io/captain-app/sandbox:${{ needs.unit-tests.outputs.version }}`
+            - `ghcr.io/captain-app/sandbox:${{ needs.unit-tests.outputs.version }}-python`
+            - `ghcr.io/captain-app/sandbox:${{ needs.unit-tests.outputs.version }}-opencode`
           draft: false
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
