@@ -12,7 +12,7 @@
     "build:clean": "turbo run build --force",
     "test": "turbo run test",
     "test:e2e": "turbo run test:e2e",
-    "docker:rebuild": "npm run build:clean && npm run docker:local -w @cloudflare/sandbox"
+    "docker:rebuild": "npm run build:clean && npm run docker:local -w @captain-app/sandbox"
   },
   "keywords": [],
   "author": "",
