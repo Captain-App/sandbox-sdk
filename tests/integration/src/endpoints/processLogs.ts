@@ -1,4 +1,4 @@
-import { Sandbox, parseSSEStream, type LogEvent } from '@cloudflare/sandbox';
+import { Sandbox, parseSSEStream, type LogEvent } from '@captain-app/sandbox';
 import { corsHeaders, errorResponse, jsonResponse } from '../http';
 
 export async function getProcessLogs(

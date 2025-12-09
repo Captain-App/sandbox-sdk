@@ -1,5 +1,5 @@
 {
-  "name": "@cloudflare/sandbox-minimal-example",
+  "name": "@captain-app/sandbox-minimal-example",
   "version": "1.0.0",
   "type": "module",
   "private": true,
@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@cloudflare/sandbox": "*",
+    "@captain-app/sandbox": "*",
     "@types/node": "^24.10.1",
     "typescript": "^5.9.3",
     "wrangler": "^4.50.0"

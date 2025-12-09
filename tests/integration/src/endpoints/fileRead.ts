@@ -1,4 +1,4 @@
-import type { Sandbox } from '@cloudflare/sandbox';
+import type { Sandbox } from '@captain-app/sandbox';
 import { errorResponse, jsonResponse, parseJsonBody } from '../http';
 
 export async function readFile(sandbox: Sandbox<unknown>, request: Request) {

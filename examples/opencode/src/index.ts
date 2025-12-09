@@ -5,11 +5,11 @@
  * 1. Web UI - Browse to / for the full OpenCode web experience
  * 2. Programmatic - POST to /api/test for SDK-based automation
  */
-import { getSandbox } from '@cloudflare/sandbox';
-import { createOpencode, proxyToOpencode } from '@cloudflare/sandbox/opencode';
+import { getSandbox } from '@captain-app/sandbox';
+import { createOpencode, proxyToOpencode } from '@captain-app/sandbox/opencode';
 import type { Config, OpencodeClient } from '@opencode-ai/sdk';
 
-export { Sandbox } from '@cloudflare/sandbox';
+export { Sandbox } from '@captain-app/sandbox';
 
 const getConfig = (env: Env): Config => ({
   provider: {

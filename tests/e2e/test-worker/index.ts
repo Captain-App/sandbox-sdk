@@ -11,7 +11,7 @@
  *
  * Use X-Sandbox-Type header to select: 'python' for SandboxPython, 'opencode' for SandboxOpencode, anything else for Sandbox
  */
-import { Sandbox, getSandbox, proxyToSandbox } from '@cloudflare/sandbox';
+import { Sandbox, getSandbox, proxyToSandbox } from '@captain-app/sandbox';
 import type {
   HealthResponse,
   SessionCreateResponse,

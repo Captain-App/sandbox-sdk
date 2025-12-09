@@ -1,5 +1,5 @@
 {
-  "name": "@cloudflare/sandbox-opencode-example",
+  "name": "@captain-app/sandbox-opencode-example",
   "version": "1.0.0",
   "type": "module",
   "private": true,
@@ -15,7 +15,7 @@
     "@opencode-ai/sdk": "^1.0.133"
   },
   "devDependencies": {
-    "@cloudflare/sandbox": "*",
+    "@captain-app/sandbox": "*",
     "@types/node": "^24.10.1",
     "typescript": "^5.9.3",
     "wrangler": "^4.50.0"

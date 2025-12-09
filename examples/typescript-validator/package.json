@@ -1,5 +1,5 @@
 {
-  "name": "@cloudflare/sandbox-typescript-validator-example",
+  "name": "@captain-app/sandbox-typescript-validator-example",
   "version": "1.0.0",
   "type": "module",
   "private": true,
@@ -14,7 +14,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@cloudflare/sandbox": "*",
+    "@captain-app/sandbox": "*",
     "prism-react-renderer": "^2.4.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"

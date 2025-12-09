@@ -1,4 +1,4 @@
-import type { Sandbox } from '@cloudflare/sandbox';
+import type { Sandbox } from '@captain-app/sandbox';
 import { errorResponse, jsonResponse } from '../http';
 
 export async function createTestBinaryFile(sandbox: Sandbox<unknown>) {

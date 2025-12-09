@@ -15,7 +15,7 @@ export default function CodeViewerSheet({
   );
 
   const compilationCode = `// Compile TypeScript with Sandbox SDK
-import { getSandbox } from '@cloudflare/sandbox';
+import { getSandbox } from '@captain-app/sandbox';
 
 const sandbox = getSandbox(this.env.Sandbox, \`compile-\${sessionId}\`);
 

@@ -1,5 +1,5 @@
-import type { Sandbox } from '@cloudflare/sandbox';
-import { parseSSEStream, type ExecEvent } from '@cloudflare/sandbox';
+import type { Sandbox } from '@captain-app/sandbox';
+import { parseSSEStream, type ExecEvent } from '@captain-app/sandbox';
 import { corsHeaders, errorResponse, parseJsonBody } from '../http';
 
 export async function executeCommandStream(

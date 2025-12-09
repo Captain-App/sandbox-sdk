@@ -1,5 +1,5 @@
-import type { Sandbox } from '@cloudflare/sandbox';
-import { streamFile } from '@cloudflare/sandbox';
+import type { Sandbox } from '@captain-app/sandbox';
+import { streamFile } from '@captain-app/sandbox';
 import { corsHeaders, errorResponse, parseJsonBody } from '../http';
 
 interface FileStreamEvent {

@@ -1,4 +1,4 @@
-import type { Sandbox } from '@cloudflare/sandbox';
+import type { Sandbox } from '@captain-app/sandbox';
 import { jsonResponse, errorResponse } from '../http';
 
 // Minimal WebSocket echo server script using Bun

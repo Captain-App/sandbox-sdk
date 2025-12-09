@@ -1,9 +1,9 @@
-import type { Sandbox } from '@cloudflare/sandbox';
+import type { Sandbox } from '@captain-app/sandbox';
 import {
   InterpreterNotReadyError,
   isInterpreterNotReadyError,
   isRetryableError
-} from '@cloudflare/sandbox';
+} from '@captain-app/sandbox';
 import {
   corsHeaders,
   errorResponse,

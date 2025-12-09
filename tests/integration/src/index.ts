@@ -1,4 +1,4 @@
-import { getSandbox, proxyToSandbox, type Sandbox } from '@cloudflare/sandbox';
+import { getSandbox, proxyToSandbox, type Sandbox } from '@captain-app/sandbox';
 import { codeExamples } from '../shared/examples';
 import {
   executeCommand,
@@ -38,7 +38,7 @@ import {
   parseJsonBody
 } from './http';
 
-export { Sandbox } from '@cloudflare/sandbox';
+export { Sandbox } from '@captain-app/sandbox';
 
 // Helper function to generate cryptographically secure random strings
 function generateSecureRandomString(length: number = 12): string {

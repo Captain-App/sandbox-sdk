@@ -4,6 +4,6 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@cloudflare/sandbox": "*"
+    "@captain-app/sandbox": "*"
   }
 }
