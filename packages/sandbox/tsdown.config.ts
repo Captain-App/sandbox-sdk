@@ -1,7 +1,14 @@
 import { defineConfig } from 'tsdown';
 
 export default defineConfig({
-  entry: ['src/index.ts', 'src/openai/index.ts', 'src/opencode/index.ts'],
+  entry: [
+    'src/index.ts',
+    'src/openai/index.ts',
+    'src/opencode/index.ts',
+    'src/bridge/index.ts',
+    'src/client/index.ts',
+    'src/cli/index.ts'
+  ],
   outDir: 'dist',
   dts: {
     sourcemap: true,
