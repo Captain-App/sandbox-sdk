@@ -1,7 +1,8 @@
 // packages/sandbox/tests/opencode/opencode.test.ts
 import type { Process, ProcessStatus } from '@repo/shared';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { createOpencode } from '../../src/opencode/opencode';
+import { createOpencode, proxyToOpencode } from '../../src/opencode/opencode';
+import type { OpencodeServer } from '../../src/opencode/types';
 import { OpencodeStartupError } from '../../src/opencode/types';
 import type { Sandbox } from '../../src/sandbox';
 
@@ -88,6 +89,17 @@ describe('createOpencode', () => {
     expect(result.server.port).toBe(8080);
   });
 
+  it('should start OpenCode server in specified directory', async () => {
+    await createOpencode(mockSandbox as unknown as Sandbox, {
+      directory: '/home/user/project'
+    });
+
+    expect(mockSandbox.startProcess).toHaveBeenCalledWith(
+      'cd /home/user/project && opencode serve --port 4096 --hostname 0.0.0.0',
+      expect.any(Object)
+    );
+  });
+
   it('should pass config via OPENCODE_CONFIG_CONTENT env var', async () => {
     const config = {
       provider: { anthropic: { options: { apiKey: 'test-key' } } }
@@ -140,13 +152,14 @@ describe('createOpencode', () => {
 
     expect(result.client).toBeDefined();
     expect(result.server).toBeDefined();
-    expect(result.server.process).toBe(mockProcess);
+    expect(result.server.port).toBe(4096);
+    expect(result.server.url).toBe('http://localhost:4096');
   });
 
-  it('should provide stop method that kills process', async () => {
+  it('should provide close method that kills process', async () => {
     const result = await createOpencode(mockSandbox as unknown as Sandbox);
 
-    await result.server.stop();
+    await result.server.close();
 
     expect(mockProcess.kill).toHaveBeenCalledWith('SIGTERM');
   });
@@ -175,8 +188,8 @@ describe('createOpencode', () => {
 
       // Should not start a new process
       expect(mockSandbox.startProcess).not.toHaveBeenCalled();
-      // Should return the existing process
-      expect(result.server.process).toBe(existingProcess);
+      // Server should be valid (process is internal, not exposed)
+      expect(result.server.port).toBe(4096);
     });
 
     it('should wait for starting process to be ready', async () => {
@@ -243,5 +256,95 @@ describe('createOpencode', () => {
         createOpencode(mockSandbox as unknown as Sandbox)
       ).rejects.toThrow(/Startup failed/);
     });
+  });
+
+  describe('malformed config handling', () => {
+    it.each([
+      ['string', { provider: 'anthropic' }],
+      ['array', { provider: ['anthropic'] }],
+      ['null', { provider: null }],
+      ['number', { provider: 42 }]
+    ])('should handle provider as %s without crashing', async (_, config) => {
+      await createOpencode(mockSandbox as unknown as Sandbox, {
+        config: config as never
+      });
+
+      // Should start process without extracting invalid API keys
+      expect(mockSandbox.startProcess).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          env: expect.objectContaining({
+            OPENCODE_CONFIG_CONTENT: JSON.stringify(config)
+          })
+        })
+      );
+      // Should NOT have any *_API_KEY env vars from malformed config
+      const callArgs = mockSandbox.startProcess.mock.calls[0][1];
+      const envKeys = Object.keys(callArgs.env);
+      expect(envKeys.filter((k: string) => k.endsWith('_API_KEY'))).toEqual([]);
+    });
+  });
+});
+
+describe('proxyToOpencode', () => {
+  const server: OpencodeServer = {
+    port: 4096,
+    url: 'http://localhost:4096',
+    close: vi.fn()
+  };
+
+  function createMockSandboxForProxy() {
+    return {
+      containerFetch: vi.fn().mockResolvedValue(new Response('proxied'))
+    } as unknown as Sandbox;
+  }
+
+  it('should redirect GET html requests to add ?url= parameter', () => {
+    const sandbox = createMockSandboxForProxy();
+    const request = new Request('http://example.com/', {
+      headers: { accept: 'text/html' }
+    });
+
+    const response = proxyToOpencode(request, sandbox, server);
+
+    expect(response).toBeInstanceOf(Response);
+    expect((response as Response).status).toBe(302);
+    expect((response as Response).headers.get('location')).toBe(
+      'http://example.com/?url=http%3A%2F%2Fexample.com'
+    );
+  });
+
+  it('should proxy POST requests directly without redirect', async () => {
+    const sandbox = createMockSandboxForProxy();
+    const request = new Request('http://example.com/session', {
+      method: 'POST',
+      body: JSON.stringify({ prompt: 'test' })
+    });
+
+    await proxyToOpencode(request, sandbox, server);
+
+    expect(sandbox.containerFetch).toHaveBeenCalledWith(request, 4096);
+  });
+
+  it('should proxy GET requests that already have ?url= parameter', async () => {
+    const sandbox = createMockSandboxForProxy();
+    const request = new Request('http://example.com/?url=http://example.com', {
+      headers: { accept: 'text/html' }
+    });
+
+    await proxyToOpencode(request, sandbox, server);
+
+    expect(sandbox.containerFetch).toHaveBeenCalledWith(request, 4096);
+  });
+
+  it('should proxy GET requests for non-html assets', async () => {
+    const sandbox = createMockSandboxForProxy();
+    const request = new Request('http://example.com/app.js', {
+      headers: { accept: 'application/javascript' }
+    });
+
+    await proxyToOpencode(request, sandbox, server);
+
+    expect(sandbox.containerFetch).toHaveBeenCalledWith(request, 4096);
   });
 });

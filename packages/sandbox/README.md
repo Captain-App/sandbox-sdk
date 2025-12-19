@@ -2,7 +2,8 @@
 
 # Cloudflare Sandbox SDK
 
-[![npm version](https://img.shields.io/npm/v/@cloudflare/sandbox.svg)](https://www.npmjs.com/package/@cloudflare/sandbox)
+[![npm version](https://img.shields.io/npm/v/@cloudflare/sandbox)](https://www.npmjs.com/package/@cloudflare/sandbox)
+[![npm downloads](https://img.shields.io/npm/dw/@cloudflare/sandbox)](https://www.npmjs.com/package/@cloudflare/sandbox)
 
 **Build secure, isolated code execution environments on Cloudflare.**
 
@@ -150,8 +151,12 @@ npm run check
 
 See the [examples directory](./examples) for complete working examples:
 
-- [Minimal](./examples/minimal) - Basic sandbox setup
-- [Code Interpreter](./examples/code-interpreter) - Use sandbox as an interpreter tool with gpt-oss
+- [Minimal](./examples/minimal) - Start here: exec commands, read/write files
+- [Code Interpreter](./examples/code-interpreter) - Give [gpt-oss](https://developers.cloudflare.com/workers-ai/models/gpt-oss-120b/) on Workers AI a Python REPL
+- [Claude Code](./examples/claude-code) - Run [Claude Code](https://claude.ai/code) headless on any repo
+- [OpenAI Agents](./examples/openai-agents) - `Shell` and `Editor` tools for [OpenAI Agents SDK](https://openai.github.io/openai-agents-js/)
+- [OpenCode](./examples/opencode) - [OpenCode](https://github.com/sst/opencode) web UI or [SDK](https://opencode.ai/docs/sdk/) in a sandbox
+- [TypeScript Validator](./examples/typescript-validator) - Build with npm in sandbox, execute in [isolates](https://developers.cloudflare.com/workers/runtime-apis/bindings/worker-loader/)
 
 ## Status
 

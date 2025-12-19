@@ -111,6 +111,14 @@ export interface WaitForLogResult {
 }
 
 /**
+ * Result from waiting for process exit
+ */
+export interface WaitForExitResult {
+  /** Process exit code */
+  exitCode: number;
+}
+
+/**
  * Options for waiting for a port to become ready
  */
 export interface WaitForPortOptions {
@@ -168,6 +176,30 @@ export interface PortCheckResponse {
   /** HTTP status code received (only for http mode) */
   statusCode?: number;
   /** Error message if check failed */
+  error?: string;
+}
+
+/**
+ * Request body for streaming port watch endpoint
+ */
+export interface PortWatchRequest extends PortCheckRequest {
+  /** Process ID to monitor - stream closes if process exits */
+  processId?: string;
+  /** Internal polling interval in ms (default: 500) */
+  interval?: number;
+}
+
+/**
+ * SSE event emitted by port watch stream
+ */
+export interface PortWatchEvent {
+  type: 'watching' | 'ready' | 'process_exited' | 'error';
+  port: number;
+  /** HTTP status code (for 'ready' events with HTTP mode) */
+  statusCode?: number;
+  /** Process exit code (for 'process_exited' events) */
+  exitCode?: number;
+  /** Error message (for 'error' events) */
   error?: string;
 }
 
@@ -311,6 +343,14 @@ export interface Process {
    * await proc.waitForPort(5432, { mode: 'tcp' });
    */
   waitForPort(port: number, options?: WaitForPortOptions): Promise<void>;
+
+  /**
+   * Wait for the process to exit
+   *
+   * Returns the exit code. Use getProcessLogs() or streamProcessLogs()
+   * to retrieve output after the process exits.
+   */
+  waitForExit(timeout?: number): Promise<WaitForExitResult>;
 }
 
 // Streaming event types

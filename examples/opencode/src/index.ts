@@ -5,11 +5,15 @@
  * 1. Web UI - Browse to / for the full OpenCode web experience
  * 2. Programmatic - POST to /api/test for SDK-based automation
  */
-import { getSandbox } from '@captain-app/sandbox';
-import { createOpencode, proxyToOpencode } from '@captain-app/sandbox/opencode';
+import { getSandbox } from '@cloudflare/sandbox';
+import {
+  createOpencode,
+  createOpencodeServer,
+  proxyToOpencode
+} from '@cloudflare/sandbox/opencode';
 import type { Config, OpencodeClient } from '@opencode-ai/sdk';
 
-export { Sandbox } from '@captain-app/sandbox';
+export { Sandbox } from '@cloudflare/sandbox';
 
 const getConfig = (env: Env): Config => ({
   provider: {
@@ -32,7 +36,11 @@ export default {
     }
 
     // Everything else: Web UI proxy
-    return proxyToOpencode(request, sandbox, { config: getConfig(env) });
+    const server = await createOpencodeServer(sandbox, {
+      directory: '/home/user/agents',
+      config: getConfig(env)
+    });
+    return proxyToOpencode(request, sandbox, server);
   }
 };
 
@@ -51,6 +59,7 @@ async function handleSdkTest(
 
     // Get typed SDK client
     const { client } = await createOpencode<OpencodeClient>(sandbox, {
+      directory: '/home/user/agents',
       config: getConfig(env)
     });
 
