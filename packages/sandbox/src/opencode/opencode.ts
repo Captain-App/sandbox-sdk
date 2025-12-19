@@ -1,4 +1,4 @@
-import type { Config } from '@opencode-ai/sdk';
+import type { Config } from '@opencode-ai/sdk/client';
 import { createLogger, type Logger, type Process } from '@repo/shared';
 import type { Sandbox } from '../sandbox';
 import type { OpencodeOptions, OpencodeResult, OpencodeServer } from './types';
@@ -30,7 +30,7 @@ async function ensureSdkLoaded(): Promise<void> {
   if (createOpencodeClient) return;
 
   try {
-    const sdk = await import('@opencode-ai/sdk');
+    const sdk = await import('@opencode-ai/sdk/client');
     createOpencodeClient = sdk.createOpencodeClient;
   } catch {
     throw new Error(
