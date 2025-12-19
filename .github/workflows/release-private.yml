@@ -49,7 +49,7 @@ jobs:
       - name: Run sandbox unit tests
         run: |
           set +e
-          timeout --preserve-status 30 npm run test -w @cloudflare/sandbox > sandbox_test.log 2>&1
+          timeout --preserve-status 30 npm run test -w @captain-app/sandbox > sandbox_test.log 2>&1
           EXIT_CODE=$?
           cat sandbox_test.log
 
