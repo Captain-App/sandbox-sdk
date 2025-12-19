@@ -1,6 +1,6 @@
-import { getSandbox } from '@captain-app/sandbox';
+import { getSandbox } from '@cloudflare/sandbox';
 
-export { Sandbox } from '@captain-app/sandbox';
+export { Sandbox } from '@cloudflare/sandbox';
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {

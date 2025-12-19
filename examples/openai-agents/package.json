@@ -1,5 +1,5 @@
 {
-  "name": "@captain-app/sandbox-openai-agents-example",
+  "name": "@cloudflare/sandbox-openai-agents-example",
   "version": "1.0.0",
   "description": "Using OpenAI Agents with Sandbox SDK",
   "private": true,

@@ -1,4 +1,4 @@
-import { getSandbox } from '@captain-app/sandbox';
+import { getSandbox } from '@cloudflare/sandbox';
 
 interface CmdOutput {
   success: boolean;
@@ -58,4 +58,4 @@ export default {
   }
 };
 
-export { Sandbox } from '@captain-app/sandbox';
+export { Sandbox } from '@cloudflare/sandbox';

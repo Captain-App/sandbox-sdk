@@ -1,5 +1,5 @@
-import { getSandbox, Sandbox } from '@captain-app/sandbox';
-import { Editor, Shell } from '@captain-app/sandbox/openai';
+import { getSandbox, Sandbox } from '@cloudflare/sandbox';
+import { Editor, Shell } from '@cloudflare/sandbox/openai';
 export { Sandbox }; // export the Sandbox class for the worker
 
 import { Agent, applyPatchTool, run, shellTool } from '@openai/agents';

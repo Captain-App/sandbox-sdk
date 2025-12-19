@@ -1,4 +1,4 @@
-import { getSandbox } from '@captain-app/sandbox';
+import { getSandbox } from '@cloudflare/sandbox';
 import type {
   ErrorResponse,
   ValidateRequest,

@@ -4,7 +4,7 @@ import './index.css';
 import type {
   CommandResult,
   FileOperationResult
-} from '@captain-app/sandbox/openai';
+} from '@cloudflare/sandbox/openai';
 import { nanoid } from 'nanoid';
 
 interface Response {

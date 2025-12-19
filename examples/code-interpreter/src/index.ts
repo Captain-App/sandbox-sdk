@@ -1,7 +1,7 @@
-import { getSandbox } from '@captain-app/sandbox';
+import { getSandbox } from '@cloudflare/sandbox';
 import type OpenAI from 'openai';
 
-export { Sandbox } from '@captain-app/sandbox';
+export { Sandbox } from '@cloudflare/sandbox';
 
 const API_PATH = '/foo';
 const MODEL = '@cf/openai/gpt-oss-120b';

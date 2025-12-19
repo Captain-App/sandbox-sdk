@@ -49,7 +49,7 @@ jobs:
       - name: Run sandbox unit tests
         run: |
           set +e
-          timeout --preserve-status 30 npm run test -w @captain-app/sandbox > sandbox_test.log 2>&1
+          timeout --preserve-status 30 npm run test -w @cloudflare/sandbox > sandbox_test.log 2>&1
           EXIT_CODE=$?
           cat sandbox_test.log
 
@@ -196,14 +196,14 @@ jobs:
             ```json
             {
               "dependencies": {
-                "@captain-app/sandbox": "https://github.com/Captain-App/sandbox-sdk/releases/download/v${{ needs.unit-tests.outputs.version }}/sandbox.tgz"
+                "@cloudflare/sandbox": "https://github.com/Captain-App/sandbox-sdk/releases/download/v${{ needs.unit-tests.outputs.version }}/sandbox.tgz"
               }
             }
             ```
 
             Or install from GitHub Packages (requires auth):
             ```bash
-            npm install @captain-app/sandbox
+            npm install @cloudflare/sandbox
             ```
 
             ## Docker Images (GitHub Container Registry)
