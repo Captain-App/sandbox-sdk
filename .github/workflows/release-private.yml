@@ -38,7 +38,7 @@ jobs:
         run: npm install
 
       - name: Build packages
-        run: npm run build
+        run: npx turbo run build --filter=@captain-app/sandbox...
 
       - name: Get package version
         id: get-version
@@ -109,7 +109,7 @@ jobs:
         run: npm install
 
       - name: Build packages
-        run: npm run build
+        run: npx turbo run build --filter=@captain-app/sandbox...
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
