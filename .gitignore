@@ -160,3 +160,6 @@ tests/e2e/test-worker/wrangler.jsonc
 
 sites/**/.astro/
 perf-results/
+
+# Local npm config
+.npmrc
