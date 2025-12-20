@@ -89,16 +89,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Configure npm for GitHub Packages
-        run: |
-          echo "@captain-app:registry=https://npm.pkg.github.com" >> .npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
-
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@captain-app'
           cache: 'npm'
 
       - uses: oven-sh/setup-bun@v2
@@ -169,13 +162,6 @@ jobs:
           build-args: |
             SANDBOX_VERSION=${{ needs.unit-tests.outputs.version }}
 
-      - name: Publish npm package to GitHub Packages
-        run: |
-          cd packages/sandbox
-          npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Create npm tarball for release
         run: |
           cd packages/sandbox
@@ -190,20 +176,15 @@ jobs:
           name: Release v${{ needs.unit-tests.outputs.version }}
           files: packages/sandbox/sandbox.tgz
           body: |
-            ## NPM Package
+            ## NPM Package Tarball
 
             Install from release tarball (recommended):
             ```json
             {
               "dependencies": {
-                "@cloudflare/sandbox": "https://github.com/Captain-App/sandbox-sdk/releases/download/v${{ needs.unit-tests.outputs.version }}/sandbox.tgz"
+                "@captain-app/sandbox": "https://github.com/Captain-App/sandbox-sdk/releases/download/v${{ needs.unit-tests.outputs.version }}/sandbox.tgz"
               }
             }
-            ```
-
-            Or install from GitHub Packages (requires auth):
-            ```bash
-            npm install @cloudflare/sandbox
             ```
 
             ## Docker Images (GitHub Container Registry)

@@ -1,21 +1,20 @@
 # Private Publishing Setup (GitHub Packages)
 
-This document describes how to publish the npm package and Docker images using GitHub's infrastructure.
+This document describes how to build and release the package and Docker images using GitHub's infrastructure.
 
 ## Overview
 
-This fork publishes to GitHub's package registries:
+This fork publishes to GitHub's registries:
 
-- **NPM Package**: `@cloudflare/sandbox` → GitHub Packages (npm registry)
+- **NPM Package**: Distributed as a **tarball** attached to GitHub Releases.
 - **Docker Images**: `ghcr.io/captain-app/sandbox` → GitHub Container Registry
 
 ## Prerequisites
 
 No external accounts needed! The workflow uses GitHub's built-in `GITHUB_TOKEN` for:
 
-- Publishing npm packages to GitHub Packages
 - Publishing Docker images to GitHub Container Registry
-- Creating GitHub releases
+- Creating GitHub releases with tarball assets
 
 ## Publishing
 
@@ -25,9 +24,9 @@ The `release-private.yml` workflow will automatically:
 
 1. Run tests
 2. Build packages
-3. Publish npm package to GitHub Packages
+3. Create an npm tarball
 4. Build and push Docker images to GitHub Container Registry
-5. Create a GitHub release with tags
+5. Create a GitHub release with the tarball attached
 
 Triggered on:
 
@@ -36,19 +35,15 @@ Triggered on:
 
 ### Manual Publishing
 
-#### NPM Package (GitHub Packages)
+#### NPM Package (Tarball)
 
 ```bash
-# Configure npm for GitHub Packages
-echo "@captain-app:registry=https://npm.pkg.github.com" >> .npmrc
-echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" >> .npmrc
-
 # Build the package
 npm run build
 
-# Publish
+# Create tarball
 cd packages/sandbox
-npm publish
+npm pack
 ```
 
 #### Docker Images
@@ -73,54 +68,21 @@ docker push ghcr.io/captain-app/sandbox:latest-opencode
 
 ## Using the Published Package
 
-### Install from GitHub Packages
+### Install from GitHub Release (Tarball)
 
-Configure npm to use GitHub Packages:
+The recommended way to use this package is to install it directly from the GitHub Release tarball. This avoids the need for an npm registry or authentication.
 
-**Option 1: Per-project `.npmrc`**
-
-```bash
-# In your project root, create/update .npmrc
-echo "@captain-app:registry=https://npm.pkg.github.com" >> .npmrc
-echo "//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN" >> .npmrc
-```
-
-**Option 2: Global `.npmrc`**
-
-```bash
-# In ~/.npmrc
-echo "@captain-app:registry=https://npm.pkg.github.com" >> ~/.npmrc
-echo "//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN" >> ~/.npmrc
-```
-
-**Option 3: Environment variable**
-
-```bash
-export GITHUB_TOKEN=your_token_here
-# npm will use GITHUB_TOKEN automatically when configured
-```
-
-Then install normally:
-
-```bash
-npm install @cloudflare/sandbox
-```
-
-Or add to `package.json`:
+In your `package.json`:
 
 ```json
 {
   "dependencies": {
-    "@cloudflare/sandbox": "^0.6.3"
+    "@captain-app/sandbox": "https://github.com/Captain-App/sandbox-sdk/releases/download/vVERSION/sandbox.tgz"
   }
 }
 ```
 
-**Creating a GitHub Token:**
-
-1. Go to https://github.com/settings/tokens
-2. Generate new token (classic) with `read:packages` permission
-3. Use it in `.npmrc` or as `GITHUB_TOKEN` environment variable
+Replace `VERSION` with the desired version tag (e.g., `0.7.1`).
 
 ### Docker Images
 
@@ -158,9 +120,9 @@ Versions are managed via package.json. To create a new release:
 1. Update version in `packages/sandbox/package.json`
 2. Commit and push to `main`
 3. The workflow will:
-   - Publish npm package to GitHub Packages
+   - Create an npm tarball
    - Build and push Docker images
-   - Create a GitHub release with the version tag
+   - Create a GitHub release with the version tag and tarball asset
 
 Or use changesets (if configured):
 
@@ -173,20 +135,6 @@ git push
 ```
 
 ## Troubleshooting
-
-### NPM Publishing Fails
-
-- Check that `GITHUB_TOKEN` has `write:packages` permission (automatic in workflows)
-- Verify the repository has GitHub Packages enabled
-- Check package visibility settings (should be private for private repos)
-- View packages at: https://github.com/Captain-App/sandbox-sdk/packages
-
-### Can't Install Package
-
-- Ensure `.npmrc` is configured correctly with GitHub Packages registry
-- Verify your GitHub token has `read:packages` permission
-- Check package visibility: https://github.com/Captain-App/sandbox-sdk/packages
-- Try: `npm install @cloudflare/sandbox --verbose` for detailed errors
 
 ### Docker Publishing Fails
 
