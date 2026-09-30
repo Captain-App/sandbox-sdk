@@ -1,0 +1,16 @@
+# Backstage catalog entry — discovered by https://backstage.captainapp.co.uk
+# (captain-k3s GitHub App). Edit freely: type, lifecycle, system, owner, links.
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: sandbox-sdk
+  description: "Run sandboxed code environments on Cloudflare's edge network"
+  annotations:
+    github.com/project-slug: Captain-App/sandbox-sdk
+  tags:
+    - fork
+    - typescript
+spec:
+  type: library
+  lifecycle: experimental
+  owner: group:default/captain-app
